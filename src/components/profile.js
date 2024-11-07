@@ -4,6 +4,7 @@ import { doc, getDoc } from "firebase/firestore";
 
 function Profile() {
   const [userDetails, setUserDetails] = useState(null);
+
   const fetchUserData = async () => {
     auth.onAuthStateChanged(async (user) => {
       console.log(user);
@@ -18,6 +19,7 @@ function Profile() {
       }
     });
   };
+
   useEffect(() => {
     fetchUserData();
   }, []);
@@ -31,8 +33,14 @@ function Profile() {
       console.error("Error logging out:", error.message);
     }
   }
+
   return (
     <div>
+      {/* New Logout button at the top */}
+      <button className="btn btn-secondary" onClick={handleLogout} style={{ float: "right", margin: "10px" }}>
+        Logout
+      </button>
+
       {userDetails ? (
         <>
           <div style={{ display: "flex", justifyContent: "center" }}>
@@ -40,14 +48,16 @@ function Profile() {
               src={userDetails.photo}
               width={"40%"}
               style={{ borderRadius: "50%" }}
+              alt="User profile"
             />
           </div>
           <h3>Welcome {userDetails.firstName} 🙏🙏</h3>
           <div>
             <p>Email: {userDetails.email}</p>
             <p>First Name: {userDetails.firstName}</p>
-            {/* <p>Last Name: {userDetails.lastName}</p> */}
           </div>
+
+          {/* Existing Logout button */}
           <button className="btn btn-primary" onClick={handleLogout}>
             Logout
           </button>
@@ -58,4 +68,5 @@ function Profile() {
     </div>
   );
 }
+
 export default Profile;
